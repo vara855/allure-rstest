@@ -5,5 +5,6 @@ export default defineConfig({
   extends: withRslibConfig(),
   include: ['tests/spec/**/*.test.ts', 'tests/build.test.ts'],
   exclude: ['tests/fixtures/**', 'tests/spec/currentTask.test.ts', 'tests/spec/runtime.test.ts'],
+  setupFiles: ['./dist/setup.js'],
   testTimeout: 60_000,
 });
