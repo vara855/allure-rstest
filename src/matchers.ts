@@ -1,3 +1,7 @@
+/*
+ * Ported from allure-vitest (https://github.com/allure-framework/allure-js),
+ * Copyright Qameta Software, licensed under Apache-2.0.
+ */
 import { Status } from 'allure-js-commons';
 import type { RuntimeMessage } from 'allure-js-commons/sdk';
 import { getMessageAndTraceFromError, getStatusFromError } from 'allure-js-commons/sdk';
