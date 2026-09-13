@@ -1,8 +1,7 @@
 # allure-rstest demo
 
 A standalone project that configures `allure-rstest` the way a real consumer would, runs a
-handful of tests, and commits the generated Allure artifacts so the report can be opened
-without re-running the suite.
+handful of tests, and generates an Allure report from the results.
 
 ## Setup
 
@@ -19,14 +18,16 @@ npm install
 npm test
 ```
 
-This writes Allure results to `allure-results/` (already committed so the report can be
-opened without running the tests).
+This writes Allure results to `allure-results/` (git-ignored).
 
-## Open the report
+## Generate and open the report
 
 ```bash
-npx allure open allure-results
+npm run allure       # npx allure generate ./allure-results --clean -o ./allure-report
+npm run allure:open  # npx allure open ./allure-report
 ```
+
+`allure-report/` is also git-ignored. Note: the Allure CLI requires a JVM to run.
 
 ## What the demo shows
 

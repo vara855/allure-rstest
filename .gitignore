@@ -9,6 +9,10 @@ dist/
 storybook-static
 doc_build/
 
+# Allure
+allure-results/
+allure-report/
+
 # IDE
 .vscode/*
 !.vscode/extensions.json

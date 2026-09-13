@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "test": "rstest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "allure": "npx allure generate ./allure-results --clean -o ./allure-report",
+    "allure:open": "npx allure open ./allure-report"
   },
   "devDependencies": {
     "@rstest/core": "^0.11.12",
+    "allure-commandline": "^2.43.0",
     "allure-js-commons": "^3.12.1",
     "allure-rstest": "file:..",
     "typescript": "^6.0.3"
