@@ -6,6 +6,7 @@ import { parseTestPlan } from 'allure-js-commons/sdk/reporter';
 import { installApiWrapper } from './apiWrapper.js';
 import type { RstestTask } from './currentTask.js';
 import { allureRstestLegacyApi } from './legacy.js';
+import { registerAllureRstestExpect } from './matchers.js';
 import { RstestTestRuntime } from './RstestTestRuntime.js';
 import {
   ALLURE_SETUP_FLAG_META_KEY,
@@ -16,6 +17,7 @@ import {
 import { existsInTestPlan } from './utils.js';
 
 installApiWrapper();
+registerAllureRstestExpect();
 
 let testPlan: TestPlanV1 | undefined;
 

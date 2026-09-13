@@ -24,6 +24,7 @@ import {
   ALLURE_THREAD_META_KEY,
 } from './runtime.js';
 import { readAllureMeta, toRuntimeMessages } from './meta.js';
+import { isMatcherMessage } from './matcherMessages.js';
 import { getTestMetadata } from './utils.js';
 
 export type AllureRstestReporterConfig = ReporterConfig & { reportMatchers?: boolean };
@@ -33,9 +34,11 @@ export default class AllureRstestReporter implements Reporter {
   #runtime: ReporterRuntime;
   #startTimes = new Map<string, number>();
   #globalMessages: RuntimeMessage[] = [];
+  #reportMatchers: boolean;
 
   constructor(config: AllureRstestReporterConfig = {}) {
-    const { listeners, resultsDir, reportMatchers: _reportMatchers, ...rest } = config;
+    const { listeners, resultsDir, reportMatchers, ...rest } = config;
+    this.#reportMatchers = reportMatchers ?? true;
     this.#runtime = new ReporterRuntime({
       ...rest,
       writer: createDefaultWriter({ resultsDir }),
@@ -86,10 +89,11 @@ export default class AllureRstestReporter implements Reporter {
     });
 
     const runtimeMessages = meta[ALLURE_RUNTIME_MESSAGES_META_KEY];
-    const messages = [
-      ...toRuntimeMessages(readAllureMeta(meta) ?? {}),
-      ...(Array.isArray(runtimeMessages) ? runtimeMessages : []),
-    ];
+    const rawRuntimeMessages = Array.isArray(runtimeMessages) ? (runtimeMessages as RuntimeMessage[]) : [];
+    const filtered = this.#reportMatchers
+      ? rawRuntimeMessages
+      : rawRuntimeMessages.filter((message) => !isMatcherMessage(message));
+    const messages = [...toRuntimeMessages(readAllureMeta(meta) ?? {}), ...filtered];
     if (messages.length) this.#runtime.applyRuntimeMessages(uuid, messages);
     this.#runtime.updateTest(uuid, (test) => normalizeSingleLabels(test));
     this.#runtime.stopTest(uuid, { duration: result.duration ?? 0 });

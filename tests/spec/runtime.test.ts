@@ -1,10 +1,13 @@
 import { attachment, feature, label, step } from 'allure-js-commons';
 import type { RuntimeMessage } from 'allure-js-commons/sdk';
 import { describe, expect, test } from '@rstest/core';
+import { isMatcherMessage } from '../../src/matcherMessages.js';
 import { ALLURE_RUNTIME_MESSAGES_META_KEY } from '../../src/runtime.js';
 
 const messages = (ctx: { task: { meta: Record<string, unknown> } }): RuntimeMessage[] =>
-  (ctx.task.meta[ALLURE_RUNTIME_MESSAGES_META_KEY] as RuntimeMessage[] | undefined) ?? [];
+  ((ctx.task.meta[ALLURE_RUNTIME_MESSAGES_META_KEY] as RuntimeMessage[] | undefined) ?? []).filter(
+    (message) => !isMatcherMessage(message),
+  );
 
 test('metadata message lands in task.meta', async (ctx) => {
   await feature('Checkout');
