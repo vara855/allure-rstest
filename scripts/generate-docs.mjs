@@ -5,8 +5,12 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const readme = readFileSync(join(root, 'README.md'), 'utf8').trim();
 
+const packageJson = readFileSync(join(root, 'package.json'), 'utf-8');
+
+const {version} = JSON.parse(packageJson);
+
 const index = `---
-title: allure-rstest
+title: allure-rstest ${version}
 description: Allure integration for Rstest
 ---
 

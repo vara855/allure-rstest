@@ -1,6 +1,8 @@
 # allure-rstest
 
-[Allure Report](https://allurereport.org/) integration for the [rstest](https://rstest.rs) test runner.
+[Allure Report](https://allurereport.org/) integration for the [rstest](https://github.com/web-infra-dev/rstest) test runner.
+
+> Not battle tested. Almost fully vibe-coded, but design is inspired by [allure-vitest](https://github.com/allure-framework/allure-js/tree/main/packages/allure-vitest) and DX improved according to hands on experience of allure-jest and allure-vitest. 
 
 ## Installation
 
@@ -161,6 +163,10 @@ setupFiles: ['allure-rstest/browser/setup'],
 - The integration relies on an internal rstest detail (`globalThis["@rstest/core"]`) and
   is verified against `@rstest/core@0.11.12`. On a minor version mismatch the package
   prints a warning.
+
+## Contribution
+
+Welcome.
 
 ## License
 
