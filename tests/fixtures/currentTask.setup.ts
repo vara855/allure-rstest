@@ -1,3 +1,1 @@
-import { installApiWrapper } from '../../src/apiWrapper.js';
-
-installApiWrapper();
+import '../../src/setup.js';
