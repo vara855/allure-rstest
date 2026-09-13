@@ -8,7 +8,17 @@ import { fileURLToPath } from 'node:url';
 import { attachment, logStep, step } from 'allure-js-commons';
 import type { AllureResults } from 'allure-js-commons/sdk';
 import { stripAnsi } from 'allure-js-commons/sdk';
+import { setGlobalTestRuntime } from 'allure-js-commons/sdk/runtime';
 import { MessageReader, getPosixPath } from 'allure-js-commons/sdk/reporter';
+
+import { installApiWrapper } from '../src/apiWrapper.js';
+import { RstestTestRuntime } from '../src/RstestTestRuntime.js';
+
+// The harness drives the Allure facade for fixture bookkeeping, so give the outer test
+// process a real runtime and current-task resolution. This keeps the root test config
+// free of an allure-rstest setup and silences "no test runtime is found" warnings.
+installApiWrapper();
+setGlobalTestRuntime(new RstestTestRuntime());
 
 const require_ = createRequire(import.meta.url);
 const fileDirname = dirname(fileURLToPath(import.meta.url));
