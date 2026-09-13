@@ -9,6 +9,14 @@ dist/
 storybook-static
 doc_build/
 
+# Allure
+allure-results/
+allure-report/
+
+# Docs site
+website/build/
+website/docs/index.md
+
 # IDE
 .vscode/*
 !.vscode/extensions.json
@@ -18,3 +26,8 @@ docs/superpowers
 
 # CodeGraph index
 .codegraph/
+
+# SDD working area
+.superpowers/
+
+tests/fixtures/

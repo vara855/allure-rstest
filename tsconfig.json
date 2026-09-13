@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     "types": ["node"],
     "useDefineForClassFields": true,
-    "rootDir": "src",
+    "rootDir": ".",
 
     /* modules */
     "isolatedModules": true,
@@ -19,5 +19,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src"]
+  "include": ["src", "rslib.config.ts", "rstest.config.ts", "rslint.config.ts"]
 }
