@@ -1,4 +1,4 @@
-import { Stage, Status, type StatusDetails } from 'allure-js-commons';
+import { LabelName, Stage, Status, type Label, type StatusDetails } from 'allure-js-commons';
 import type { RuntimeMessage } from 'allure-js-commons/sdk';
 import { getMessageAndTraceFromError, getStatusFromError } from 'allure-js-commons/sdk';
 import type { ReporterConfig } from 'allure-js-commons/sdk/reporter';
@@ -23,6 +23,7 @@ import {
   ALLURE_SKIP_META_KEY,
   ALLURE_THREAD_META_KEY,
 } from './runtime.js';
+import { readAllureMeta, toRuntimeMessages } from './meta.js';
 import { getTestMetadata } from './utils.js';
 
 export type AllureRstestReporterConfig = ReporterConfig & { reportMatchers?: boolean };
@@ -82,8 +83,13 @@ export default class AllureRstestReporter implements Reporter {
       applyStatus(test, result);
     });
 
-    const messages = meta[ALLURE_RUNTIME_MESSAGES_META_KEY];
-    if (Array.isArray(messages)) this.#runtime.applyRuntimeMessages(uuid, messages);
+    const runtimeMessages = meta[ALLURE_RUNTIME_MESSAGES_META_KEY];
+    const messages = [
+      ...toRuntimeMessages(readAllureMeta(meta) ?? {}),
+      ...(Array.isArray(runtimeMessages) ? runtimeMessages : []),
+    ];
+    if (messages.length) this.#runtime.applyRuntimeMessages(uuid, messages);
+    this.#runtime.updateTest(uuid, (test) => normalizeSingleLabels(test));
     this.#runtime.stopTest(uuid, { duration: result.duration ?? 0 });
     this.#runtime.writeTest(uuid);
   }
@@ -115,4 +121,21 @@ const applyStatus = (
     test.status = Status.SKIPPED;
     test.stage = Stage.PENDING;
   }
+};
+
+const SINGLE_LABELS = new Set<string>([
+  LabelName.SEVERITY,
+  LabelName.OWNER,
+  LabelName.LEAD,
+  LabelName.ALLURE_ID,
+  LabelName.PARENT_SUITE,
+  LabelName.SUITE,
+  LabelName.SUB_SUITE,
+]);
+
+const normalizeSingleLabels = (test: { labels: Label[] }): void => {
+  test.labels = test.labels.filter(({ name }, index, labels) => {
+    if (!SINGLE_LABELS.has(name)) return true;
+    return !labels.slice(index + 1).some((label) => label.name === name);
+  });
 };
