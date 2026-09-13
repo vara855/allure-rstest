@@ -1,7 +1,11 @@
-import { type Label, type Link, type Parameter, LabelName, type Severity } from 'allure-js-commons';
+import { LabelName, type Label, type Link, type Parameter, type Severity } from 'allure-js-commons';
 import type { RuntimeMessage } from 'allure-js-commons/sdk';
 
 export const ALLURE_META_KEY = 'allure';
+
+type AllureMetaLabel = { name: string; value: string };
+type AllureMetaLink = { name?: string; url: string; type?: string };
+type AllureMetaParameter = { name: string; value: string };
 
 export type AllureMeta = {
   displayName?: string;
@@ -22,9 +26,9 @@ export type AllureMeta = {
   component?: string | string[];
   layer?: string | string[];
   tags?: string[];
-  labels?: Record<string, string | string[]> | Label[];
-  links?: Record<string, string | string[]> | Link[];
-  parameters?: Record<string, string> | Parameter[];
+  labels?: Record<string, string | string[]> | AllureMetaLabel[];
+  links?: Record<string, string | string[]> | AllureMetaLink[];
+  parameters?: Record<string, string> | AllureMetaParameter[];
 };
 
 /**
