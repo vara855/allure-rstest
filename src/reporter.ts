@@ -20,9 +20,11 @@ import type { Reporter, TestCaseInfo, TestResult } from '@rstest/core';
 import {
   ALLURE_GLOBAL_RUNTIME_MESSAGES_META_KEY,
   ALLURE_RUNTIME_MESSAGES_META_KEY,
+  ALLURE_SETUP_FLAG_META_KEY,
   ALLURE_SKIP_META_KEY,
   ALLURE_THREAD_META_KEY,
 } from './runtime.js';
+import { MISSING_SETUP_MESSAGE } from './diagnostics.js';
 import { readAllureMeta, toRuntimeMessages } from './meta.js';
 import { isMatcherMessage } from './matcherMessages.js';
 import { getTestMetadata } from './utils.js';
@@ -35,6 +37,7 @@ export default class AllureRstestReporter implements Reporter {
   #startTimes = new Map<string, number>();
   #globalMessages: RuntimeMessage[] = [];
   #reportMatchers: boolean;
+  #sawSetupFlag = false;
 
   constructor(config: AllureRstestReporterConfig = {}) {
     const { listeners, resultsDir, reportMatchers, ...rest } = config;
@@ -59,6 +62,9 @@ export default class AllureRstestReporter implements Reporter {
 
   onTestCaseResult(result: TestResult): void {
     const meta = (result.meta ?? {}) as Record<string, unknown>;
+    if (meta[ALLURE_SETUP_FLAG_META_KEY] === true) {
+      this.#sawSetupFlag = true;
+    }
     if (meta[ALLURE_SKIP_META_KEY] === true) return;
 
     const globalMessages = meta[ALLURE_GLOBAL_RUNTIME_MESSAGES_META_KEY];
@@ -101,6 +107,10 @@ export default class AllureRstestReporter implements Reporter {
   }
 
   onTestRunEnd(): void {
+    if (!this.#sawSetupFlag && this.#startTimes.size > 0) {
+      // eslint-disable-next-line no-console
+      console.error(MISSING_SETUP_MESSAGE);
+    }
     if (this.#globalMessages.length) this.#runtime.applyGlobalRuntimeMessages(this.#globalMessages);
     this.#globalMessages = [];
   }

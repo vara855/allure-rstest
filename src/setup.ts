@@ -5,6 +5,7 @@ import { parseTestPlan } from 'allure-js-commons/sdk/reporter';
 
 import { installApiWrapper } from './apiWrapper.js';
 import type { RstestTask } from './currentTask.js';
+import { assertSupportedRstestVersion } from './diagnostics.js';
 import { allureRstestLegacyApi } from './legacy.js';
 import { registerAllureRstestExpect } from './matchers.js';
 import { RstestTestRuntime } from './RstestTestRuntime.js';
@@ -16,6 +17,7 @@ import {
 } from './runtime.js';
 import { existsInTestPlan } from './utils.js';
 
+assertSupportedRstestVersion();
 installApiWrapper();
 registerAllureRstestExpect();
 
