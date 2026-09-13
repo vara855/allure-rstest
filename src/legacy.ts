@@ -1,6 +1,6 @@
 import * as allure from 'allure-js-commons';
 
-/** @deprecated используйте api, экспортируемый из "allure-rstest". */
+/** @deprecated use the api exported from "allure-rstest". */
 export interface AllureRstestLegacyApi {
   label: (name: string, value: string) => Promise<void>;
   link: (type: string, url: string, name?: string) => Promise<void>;
@@ -31,7 +31,7 @@ export interface AllureRstestLegacyApi {
   step: (name: string, body: () => Promise<void>) => Promise<void>;
 }
 
-/** @deprecated используйте api, экспортируемый из "allure-rstest". */
+/** @deprecated use the api exported from "allure-rstest". */
 export const allureRstestLegacyApi: AllureRstestLegacyApi = {
   label: (...args) => Promise.resolve(allure.label(...args)),
   link: (type, url, name) => Promise.resolve(allure.link(url, name, type)),

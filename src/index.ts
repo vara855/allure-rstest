@@ -61,7 +61,7 @@ declare global {
   var allure: import('./legacy.js').AllureRstestLegacyApi;
 }
 
-/** Тот же набор функций, доступный одним объектом: Allure.feature(...). */
+/** The same set of functions reachable as a single object: Allure.feature(...). */
 export const Allure = {
   allureId: commons.allureId,
   attachTrace: commons.attachTrace,
