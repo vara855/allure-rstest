@@ -21,3 +21,5 @@ docs/superpowers
 
 # SDD working area
 .superpowers/
+
+tests/fixtures/
