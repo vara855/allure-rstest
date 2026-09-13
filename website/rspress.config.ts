@@ -2,7 +2,6 @@ import { defineConfig } from 'rspress/config';
 
 export default defineConfig({
   root: 'docs',
-  base: '/allure-rstest/',
   title: 'allure-rstest',
   description: 'Allure integration for Rstest',
   outDir: 'build',
