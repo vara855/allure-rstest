@@ -60,6 +60,7 @@
     "dev": "rslib --watch",
     "format": "prettier --write .",
     "lint": "rslint",
+    "prepare": "npm run build",
     "test": "rstest",
     "test:watch": "rstest --watch",
     "typecheck": "tsc --noEmit -p tsconfig.json"
