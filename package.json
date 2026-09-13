@@ -1,24 +1,39 @@
 {
   "name": "allure-rstest",
-  "version": "0.0.1",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
+  "version": "0.1.0",
+  "description": "Allure Rstest integration",
+  "keywords": ["allure", "report", "reporter", "rstest", "test", "testing", "testops"],
+  "homepage": "https://allurereport.org/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vara855/allure-rstest.git"
   },
+  "type": "module",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" },
+    "./sync": { "types": "./dist/sync.d.ts", "import": "./dist/sync.js", "default": "./dist/sync.js" },
+    "./setup": { "types": "./dist/setup.d.ts", "import": "./dist/setup.js", "default": "./dist/setup.js" },
+    "./reporter": { "types": "./dist/reporter.d.ts", "import": "./dist/reporter.js", "default": "./dist/reporter.js" },
+    "./browser": { "types": "./dist/browser/index.d.ts", "import": "./dist/browser/index.js", "default": "./dist/browser/index.js" },
+    "./browser/setup": { "types": "./dist/browser/setup.d.ts", "import": "./dist/browser/setup.js", "default": "./dist/browser/setup.js" }
+  },
+  "files": ["dist"],
   "scripts": {
     "build": "rslib",
     "dev": "rslib --watch",
     "format": "prettier --write .",
     "lint": "rslint",
     "test": "rstest",
-    "test:watch": "rstest --watch"
+    "test:watch": "rstest --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "allure-js-commons": "^3.12.1"
+  },
+  "peerDependencies": {
+    "@rstest/core": ">=0.11.12"
   },
   "devDependencies": {
     "@rslib/core": "^1.0.0",
@@ -33,7 +48,7 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "publishConfig": {
-    "access": "public"
-  },
-  "private": true
+    "access": "public",
+    "provenance": true
+  }
 }
