@@ -65,3 +65,20 @@ test('a nested run with ALLURE_ENABLED=false produces no results', async () => {
 
   expect(tests).toEqual([]);
 });
+
+test('legacy allure global stays defined when disabled', async () => {
+  const { exitCode } = await runRstestInlineTest(
+    {
+      'spec/legacy.test.ts': `
+        import { test, expect } from "@rstest/core";
+        test("uses legacy global", async () => {
+          await globalThis.allure.feature("Checkout");
+          expect(1).toBe(1);
+        });
+      `,
+    },
+    { env: () => ({ ALLURE_ENABLED: 'false' }) },
+  );
+
+  expect(exitCode).toBe(0);
+});

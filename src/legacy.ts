@@ -58,3 +58,35 @@ export const allureRstestLegacyApi: AllureRstestLegacyApi = {
   tag: (name) => Promise.resolve(allure.tag(name)),
   step: (name, body) => Promise.resolve(allure.step(name, body)),
 };
+
+const noop = () => Promise.resolve();
+
+/**
+ * Inert implementation of the legacy global, installed when the integration is disabled so
+ * code using `globalThis.allure` keeps working (no-op instead of `undefined`).
+ */
+export const allureRstestNoopLegacyApi: AllureRstestLegacyApi = {
+  label: noop,
+  link: noop,
+  parameter: noop,
+  description: noop,
+  descriptionHtml: noop,
+  testCaseId: noop,
+  historyId: noop,
+  allureId: noop,
+  displayName: noop,
+  attachment: noop,
+  issue: noop,
+  tms: noop,
+  epic: noop,
+  feature: noop,
+  story: noop,
+  suite: noop,
+  parentSuite: noop,
+  subSuite: noop,
+  owner: noop,
+  severity: noop,
+  layer: noop,
+  tag: noop,
+  step: noop,
+};

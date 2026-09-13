@@ -141,7 +141,8 @@ new AllureRstestReporter({ enabled: false }),
 ```
 
 When disabled, the setup file skips wrapping `test`/`it`, matchers and the runtime, and
-the reporter writes nothing.
+the reporter writes nothing. The deprecated `globalThis.allure` object stays defined as a
+no-op, so existing code using it keeps working.
 
 ## Browser mode
 
