@@ -80,6 +80,8 @@ export default class AllureRstestReporter implements Reporter {
       test.labels.push(getPackageLabel(result.testPath));
       test.links.push(...links);
       if (result.project) test.parameters.push({ name: 'project', value: result.project });
+      if (result.retryCount)
+        test.parameters.push({ name: 'retry', value: String(result.retryCount), excluded: true });
       applyStatus(test, result);
     });
 
@@ -97,6 +99,21 @@ export default class AllureRstestReporter implements Reporter {
   onTestRunEnd(): void {
     if (this.#globalMessages.length) this.#runtime.applyGlobalRuntimeMessages(this.#globalMessages);
     this.#globalMessages = [];
+  }
+
+  onTestSuiteResult(result: TestResult): void {
+    const messages = (result.errors ?? []).map(
+      (error): RuntimeMessage => ({
+        type: 'global_error',
+        data: {
+          ...getMessageAndTraceFromError(error),
+          message: error.message
+            ? `${result.name} hook failed: ${error.message}`
+            : `${result.name} hook failed`,
+        },
+      }),
+    );
+    if (messages.length) this.#runtime.applyGlobalRuntimeMessages(messages);
   }
 }
 
