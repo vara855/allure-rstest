@@ -2,7 +2,15 @@
   "name": "allure-rstest",
   "version": "0.1.0",
   "description": "Allure Rstest integration",
-  "keywords": ["allure", "report", "reporter", "rstest", "test", "testing", "testops"],
+  "keywords": [
+    "allure",
+    "report",
+    "reporter",
+    "rstest",
+    "test",
+    "testing",
+    "testops"
+  ],
   "homepage": "https://allurereport.org/",
   "license": "MIT",
   "repository": {
@@ -12,14 +20,40 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" },
-    "./sync": { "types": "./dist/sync.d.ts", "import": "./dist/sync.js", "default": "./dist/sync.js" },
-    "./setup": { "types": "./dist/setup.d.ts", "import": "./dist/setup.js", "default": "./dist/setup.js" },
-    "./reporter": { "types": "./dist/reporter.d.ts", "import": "./dist/reporter.js", "default": "./dist/reporter.js" },
-    "./browser": { "types": "./dist/browser/index.d.ts", "import": "./dist/browser/index.js", "default": "./dist/browser/index.js" },
-    "./browser/setup": { "types": "./dist/browser/setup.d.ts", "import": "./dist/browser/setup.js", "default": "./dist/browser/setup.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./sync": {
+      "types": "./dist/sync.d.ts",
+      "import": "./dist/sync.js",
+      "default": "./dist/sync.js"
+    },
+    "./setup": {
+      "types": "./dist/setup.d.ts",
+      "import": "./dist/setup.js",
+      "default": "./dist/setup.js"
+    },
+    "./reporter": {
+      "types": "./dist/reporter.d.ts",
+      "import": "./dist/reporter.js",
+      "default": "./dist/reporter.js"
+    },
+    "./browser": {
+      "types": "./dist/browser/index.d.ts",
+      "import": "./dist/browser/index.js",
+      "default": "./dist/browser/index.js"
+    },
+    "./browser/setup": {
+      "types": "./dist/browser/setup.d.ts",
+      "import": "./dist/browser/setup.js",
+      "default": "./dist/browser/setup.js"
+    }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rslib",
     "dev": "rslib --watch",
@@ -39,8 +73,10 @@
     "@rslib/core": "^1.0.0",
     "@rslint/core": "^0.8.0",
     "@rstest/adapter-rslib": "^0.11.10",
+    "@rstest/browser": "^0.11.12",
     "@rstest/core": "^0.11.10",
     "@types/node": "^24.13.3",
+    "playwright": "^1.63.0",
     "prettier": "^3.9.6",
     "typescript": "^6.0.3"
   },
