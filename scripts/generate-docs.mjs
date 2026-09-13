@@ -51,25 +51,11 @@ const indexExports = extractExportedNames(readSource('src/index.ts'));
 const syncExports = extractExportedNames(readSource('src/sync.ts'));
 
 const readme = readFileSync(join(root, 'README.md'), 'utf8');
-const readmeBody = readme.replace(/^#.*\n/, '').trim();
+const readmeBody = readme.trim();
 
 const frontmatter = `---
-pageType: home
-
-hero:
-  name: allure-rstest
-  text: Allure integration for Rstest
-  actions:
-    - theme: brand
-      text: Get started
-      link: /#installation
-features:
-  - title: Declarative metadata
-    details: Set labels, severity, owner, tags and links through test meta.
-  - title: Runtime API
-    details: feature, step, attachment and more from the Allure facade.
-  - title: Matchers as steps
-    details: Turn expect() calls into report steps automatically.
+title: allure-rstest
+description: Allure integration for Rstest
 ---
 `;
 
