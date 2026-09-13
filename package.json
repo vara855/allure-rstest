@@ -58,6 +58,9 @@
   "scripts": {
     "build": "rslib",
     "dev": "rslib --watch",
+    "docs:build": "node scripts/generate-docs.mjs && cd website && rspress build",
+    "docs:dev": "cd website && rspress dev",
+    "docs:preview": "cd website && rspress preview",
     "format": "prettier --write .",
     "lint": "rslint",
     "prepare": "npm run build",
@@ -70,15 +73,16 @@
     "allure-js-commons": "^3.12.1"
   },
   "devDependencies": {
-    "allure-js-commons": "^3.12.1",
     "@rslib/core": "^1.0.0",
     "@rslint/core": "^0.8.0",
     "@rstest/adapter-rslib": "^0.11.10",
     "@rstest/browser": "^0.11.12",
     "@rstest/core": "^0.11.10",
     "@types/node": "^24.13.3",
+    "allure-js-commons": "^3.12.1",
     "playwright": "^1.63.0",
     "prettier": "^3.9.6",
+    "rspress": "^1.47.2",
     "typescript": "^6.0.3"
   },
   "engines": {

@@ -13,6 +13,10 @@ doc_build/
 allure-results/
 allure-report/
 
+# Docs site
+website/build/
+website/docs/index.md
+
 # IDE
 .vscode/*
 !.vscode/extensions.json
