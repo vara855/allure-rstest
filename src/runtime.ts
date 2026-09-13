@@ -45,7 +45,7 @@ export class BaseRstestTestRuntime extends BaseMessageTestRuntime {
     const task = getCurrentTask();
     if (!task) {
       if (isGlobalRuntimeMessage(message)) addOrphanMessage(message);
-      else console.error('allure-rstest: не удалось определить текущий тест.');
+      else console.error('allure-rstest: unable to resolve the current test.');
       return;
     }
     pushToMeta(

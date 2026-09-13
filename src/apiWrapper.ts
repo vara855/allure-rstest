@@ -77,9 +77,9 @@ export const installApiWrapper = (): void => {
 
   if (!api || typeof api.test !== 'function' || typeof api.it !== 'function') {
     throw new Error(
-      'allure-rstest: не найден глобальный объект API rstest. ' +
-        'Убедитесь, что "allure-rstest/setup" подключён через setupFiles в rstest.config, ' +
-        'и что версия @rstest/core не ниже 0.11.12.',
+      'allure-rstest: the global Rstest API was not found. ' +
+        'Ensure "allure-rstest/setup" is configured in rstest.config setupFiles ' +
+        'and @rstest/core is version 0.11.12 or newer.',
     );
   }
 
