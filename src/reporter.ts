@@ -29,10 +29,12 @@ import { cleanResultsDir } from './clean.js';
 import { readAllureMeta, toRuntimeMessages } from './meta.js';
 import { isMatcherMessage } from './matcherMessages.js';
 import { getTestMetadata } from './utils.js';
+import { isAllureDisabled } from './env.js';
 
 export type AllureRstestReporterConfig = ReporterConfig & {
   reportMatchers?: boolean;
   cleanResults?: boolean;
+  enabled?: boolean;
 };
 
 const DEFAULT_RESULTS_DIR = './allure-results';
@@ -44,10 +46,11 @@ export default class AllureRstestReporter implements Reporter {
   #resultsDir: string;
   #reportMatchers: boolean;
   #cleanResults: boolean;
+  #enabled: boolean;
   #sawSetupFlag = false;
 
   constructor(config: AllureRstestReporterConfig = {}) {
-    const { listeners, resultsDir, reportMatchers, cleanResults, ...rest } = config;
+    const { listeners, resultsDir, reportMatchers, cleanResults, enabled, ...rest } = config;
 
     if (resultsDir !== undefined && typeof resultsDir !== 'string')
       throw new TypeError('allure-rstest: "resultsDir" must be a string.');
@@ -55,10 +58,13 @@ export default class AllureRstestReporter implements Reporter {
       throw new TypeError('allure-rstest: "reportMatchers" must be a boolean.');
     if (cleanResults !== undefined && typeof cleanResults !== 'boolean')
       throw new TypeError('allure-rstest: "cleanResults" must be a boolean.');
+    if (enabled !== undefined && typeof enabled !== 'boolean')
+      throw new TypeError('allure-rstest: "enabled" must be a boolean.');
 
     this.#resultsDir = resultsDir ?? DEFAULT_RESULTS_DIR;
     this.#reportMatchers = reportMatchers ?? true;
     this.#cleanResults = cleanResults ?? true;
+    this.#enabled = enabled ?? !isAllureDisabled();
     this.#runtime = new ReporterRuntime({
       ...rest,
       writer: createDefaultWriter({ resultsDir: this.#resultsDir }),
@@ -67,6 +73,7 @@ export default class AllureRstestReporter implements Reporter {
   }
 
   onTestRunStart(): void {
+    if (!this.#enabled) return;
     if (this.#cleanResults) cleanResultsDir(this.#resultsDir);
     this.#runtime.writeCategoriesDefinitions();
     this.#runtime.writeEnvironmentInfo();
@@ -75,10 +82,12 @@ export default class AllureRstestReporter implements Reporter {
   }
 
   onTestCaseStart(test: TestCaseInfo): void {
+    if (!this.#enabled) return;
     if (test.startTime !== undefined) this.#startTimes.set(test.testId, test.startTime);
   }
 
   onTestCaseResult(result: TestResult): void {
+    if (!this.#enabled) return;
     const meta = (result.meta ?? {}) as Record<string, unknown>;
     if (meta[ALLURE_SETUP_FLAG_META_KEY] === true) {
       this.#sawSetupFlag = true;
@@ -126,6 +135,7 @@ export default class AllureRstestReporter implements Reporter {
   }
 
   onTestRunEnd(): void {
+    if (!this.#enabled) return;
     if (!this.#sawSetupFlag && this.#startTimes.size > 0) {
       // eslint-disable-next-line no-console
       console.error(MISSING_SETUP_MESSAGE);
@@ -133,6 +143,7 @@ export default class AllureRstestReporter implements Reporter {
   }
 
   onTestSuiteResult(result: TestResult): void {
+    if (!this.#enabled) return;
     const messages = (result.errors ?? []).map(
       (error): RuntimeMessage => ({
         type: 'global_error',

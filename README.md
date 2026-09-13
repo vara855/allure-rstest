@@ -123,6 +123,25 @@ await squad('alpha');
 | `listeners` | `LifecycleListener[]` | Result lifecycle hooks |
 | `reportMatchers` | `boolean` | Turn `expect` calls into steps. Defaults to `true` |
 | `cleanResults` | `boolean` | Remove stale Allure artifacts from `resultsDir` at run start. Defaults to `true` |
+| `enabled` | `boolean` | Run the integration as a no-op when `false`. Defaults to the `ALLURE_ENABLED` env var, or `true` |
+
+## Disabling
+
+To run rstest with zero Allure side effects (for example, in fast local development while
+keeping the report only on CI), either set the env var for the whole run:
+
+```bash
+ALLURE_ENABLED=false npm test
+```
+
+or pass `enabled: false` to the reporter:
+
+```ts
+new AllureRstestReporter({ enabled: false }),
+```
+
+When disabled, the setup file skips wrapping `test`/`it`, matchers and the runtime, and
+the reporter writes nothing.
 
 ## Browser mode
 
