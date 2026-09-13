@@ -25,30 +25,49 @@ import {
   ALLURE_THREAD_META_KEY,
 } from './runtime.js';
 import { MISSING_SETUP_MESSAGE } from './diagnostics.js';
+import { cleanResultsDir } from './clean.js';
 import { readAllureMeta, toRuntimeMessages } from './meta.js';
 import { isMatcherMessage } from './matcherMessages.js';
 import { getTestMetadata } from './utils.js';
 
-export type AllureRstestReporterConfig = ReporterConfig & { reportMatchers?: boolean };
+export type AllureRstestReporterConfig = ReporterConfig & {
+  reportMatchers?: boolean;
+  cleanResults?: boolean;
+};
+
+const DEFAULT_RESULTS_DIR = './allure-results';
 
 export default class AllureRstestReporter implements Reporter {
   readonly flushOutputStreams = false;
   #runtime: ReporterRuntime;
   #startTimes = new Map<string, number>();
+  #resultsDir: string;
   #reportMatchers: boolean;
+  #cleanResults: boolean;
   #sawSetupFlag = false;
 
   constructor(config: AllureRstestReporterConfig = {}) {
-    const { listeners, resultsDir, reportMatchers, ...rest } = config;
+    const { listeners, resultsDir, reportMatchers, cleanResults, ...rest } = config;
+
+    if (resultsDir !== undefined && typeof resultsDir !== 'string')
+      throw new TypeError('allure-rstest: "resultsDir" must be a string.');
+    if (reportMatchers !== undefined && typeof reportMatchers !== 'boolean')
+      throw new TypeError('allure-rstest: "reportMatchers" must be a boolean.');
+    if (cleanResults !== undefined && typeof cleanResults !== 'boolean')
+      throw new TypeError('allure-rstest: "cleanResults" must be a boolean.');
+
+    this.#resultsDir = resultsDir ?? DEFAULT_RESULTS_DIR;
     this.#reportMatchers = reportMatchers ?? true;
+    this.#cleanResults = cleanResults ?? true;
     this.#runtime = new ReporterRuntime({
       ...rest,
-      writer: createDefaultWriter({ resultsDir }),
+      writer: createDefaultWriter({ resultsDir: this.#resultsDir }),
       listeners,
     });
   }
 
   onTestRunStart(): void {
+    if (this.#cleanResults) cleanResultsDir(this.#resultsDir);
     this.#runtime.writeCategoriesDefinitions();
     this.#runtime.writeEnvironmentInfo();
     this.#startTimes.clear();

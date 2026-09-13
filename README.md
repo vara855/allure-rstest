@@ -34,7 +34,8 @@ Four channels work at the same time and are merged as described below.
 ### Declarative (recommended)
 
 `rstest` inherits `meta` from `describe` down to nested tests, and child keys override
-inherited ones — the runner does this for you.
+inherited ones — the runner does this for you. Use `allureMeta()` (instead of a raw object)
+so the Allure keys are type-checked at compile time.
 
 ```ts
 import { describe, test } from '@rstest/core';
@@ -121,6 +122,7 @@ await squad('alpha');
 | `environmentInfo` | `Record<string, string \| undefined>` | Environment information |
 | `listeners` | `LifecycleListener[]` | Result lifecycle hooks |
 | `reportMatchers` | `boolean` | Turn `expect` calls into steps. Defaults to `true` |
+| `cleanResults` | `boolean` | Remove stale Allure artifacts from `resultsDir` at run start. Defaults to `true` |
 
 ## Browser mode
 

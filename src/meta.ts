@@ -27,6 +27,11 @@ export type AllureMeta = {
   parameters?: Record<string, string> | Parameter[];
 };
 
+/**
+ * Declarative metadata for `test`/`describe` `meta`. rstest types `meta` as the loose
+ * `Record<string, TaskMetaValue>` alias, so use this helper to get compile-time checking
+ * of Allure keys (`severity`, `owner`, `tags`, ...) instead of writing the raw object.
+ */
 export const allureMeta = (meta: AllureMeta): { [ALLURE_META_KEY]: AllureMeta } => ({
   [ALLURE_META_KEY]: meta,
 });
