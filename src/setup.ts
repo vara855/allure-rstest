@@ -1,10 +1,11 @@
 import { setGlobalTestRuntime } from 'allure-js-commons/sdk/runtime';
-import { beforeAll, beforeEach } from '@rstest/core';
+import { afterEach, beforeAll, beforeEach } from '@rstest/core';
 import type { TestPlanV1 } from 'allure-js-commons/sdk';
 import { parseTestPlan } from 'allure-js-commons/sdk/reporter';
 
 import { installApiWrapper } from './apiWrapper.js';
 import type { RstestTask } from './currentTask.js';
+import { allureRstestLegacyApi } from './legacy.js';
 import { RstestTestRuntime } from './RstestTestRuntime.js';
 import {
   ALLURE_SETUP_FLAG_META_KEY,
@@ -37,4 +38,10 @@ beforeEach((ctx) => {
     task.meta[ALLURE_SKIP_META_KEY] = true;
     ctx.skip();
   }
+
+  (globalThis as Record<string, unknown>).allure = allureRstestLegacyApi;
+});
+
+afterEach(() => {
+  (globalThis as Record<string, unknown>).allure = undefined;
 });
