@@ -1,18 +1,5 @@
 {
   "name": "allure-rstest",
-<<<<<<< HEAD
-  "version": "0.0.1",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-=======
   "version": "0.1.0",
   "description": "Allure Rstest integration",
   "keywords": [
@@ -67,17 +54,10 @@
   "files": [
     "dist",
     "LICENSE"
->>>>>>> feat/allure-rstest
   ],
   "scripts": {
     "build": "rslib",
     "dev": "rslib --watch",
-<<<<<<< HEAD
-    "format": "prettier --write .",
-    "lint": "rslint",
-    "test": "rstest",
-    "test:watch": "rstest --watch"
-=======
     "docs:build": "node scripts/generate-docs.mjs && cd website && rspress build",
     "docs:dev": "cd website && rspress dev",
     "docs:preview": "cd website && rspress preview",
@@ -91,17 +71,11 @@
   "peerDependencies": {
     "@rstest/core": ">=0.11.12",
     "allure-js-commons": "^3.12.1"
->>>>>>> feat/allure-rstest
   },
   "devDependencies": {
     "@rslib/core": "^1.0.0",
     "@rslint/core": "^0.8.0",
     "@rstest/adapter-rslib": "^0.11.10",
-<<<<<<< HEAD
-    "@rstest/core": "^0.11.10",
-    "@types/node": "^24.13.3",
-    "prettier": "^3.9.6",
-=======
     "@rstest/browser": "^0.11.12",
     "@rstest/core": "^0.11.10",
     "@types/node": "^24.13.3",
@@ -109,20 +83,13 @@
     "playwright": "^1.63.0",
     "prettier": "^3.9.6",
     "rspress": "^1.47.2",
->>>>>>> feat/allure-rstest
     "typescript": "^6.0.3"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
   "publishConfig": {
-<<<<<<< HEAD
-    "access": "public"
-  },
-  "private": true
-=======
     "access": "public",
     "provenance": true
   }
->>>>>>> feat/allure-rstest
 }
