@@ -35,7 +35,6 @@ export default class AllureRstestReporter implements Reporter {
   readonly flushOutputStreams = false;
   #runtime: ReporterRuntime;
   #startTimes = new Map<string, number>();
-  #globalMessages: RuntimeMessage[] = [];
   #reportMatchers: boolean;
   #sawSetupFlag = false;
 
@@ -53,7 +52,7 @@ export default class AllureRstestReporter implements Reporter {
     this.#runtime.writeCategoriesDefinitions();
     this.#runtime.writeEnvironmentInfo();
     this.#startTimes.clear();
-    this.#globalMessages = [];
+    this.#sawSetupFlag = false;
   }
 
   onTestCaseStart(test: TestCaseInfo): void {
@@ -68,7 +67,8 @@ export default class AllureRstestReporter implements Reporter {
     if (meta[ALLURE_SKIP_META_KEY] === true) return;
 
     const globalMessages = meta[ALLURE_GLOBAL_RUNTIME_MESSAGES_META_KEY];
-    if (Array.isArray(globalMessages)) this.#globalMessages.push(...globalMessages);
+    if (Array.isArray(globalMessages) && globalMessages.length)
+      this.#runtime.applyGlobalRuntimeMessages(globalMessages);
 
     const { projectName, specPath, fullName, legacyFullName, name, suitePath, labels, links } =
       getTestMetadata(result);
@@ -111,8 +111,6 @@ export default class AllureRstestReporter implements Reporter {
       // eslint-disable-next-line no-console
       console.error(MISSING_SETUP_MESSAGE);
     }
-    if (this.#globalMessages.length) this.#runtime.applyGlobalRuntimeMessages(this.#globalMessages);
-    this.#globalMessages = [];
   }
 
   onTestSuiteResult(result: TestResult): void {

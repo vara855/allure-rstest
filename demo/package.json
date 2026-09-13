@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@rstest/core": "^0.11.12",
+    "allure-js-commons": "^3.12.1",
     "allure-rstest": "file:..",
     "typescript": "^6.0.3"
   }
