@@ -10,10 +10,12 @@
     "allure:open": "npx allure open ./allure-report"
   },
   "devDependencies": {
-    "@rstest/core": "^0.11.12",
+    "@rstest/browser": "^0.12.0",
+    "@rstest/core": "^0.12.0",
     "allure-commandline": "^2.43.0",
     "allure-js-commons": "^3.12.1",
     "allure-rstest": "file:..",
+    "playwright": "^1.63.0",
     "typescript": "^6.0.3"
   }
 }

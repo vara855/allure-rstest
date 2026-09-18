@@ -12,6 +12,14 @@ script):
 npm install
 ```
 
+The demo runs its tests in two Rstest projects: a `node` project and a `browser` project.
+The browser project uses Browser Mode (Playwright), so the first run needs the Chromium
+driver installed:
+
+```bash
+npx playwright install chromium
+```
+
 ## Run the tests
 
 ```bash
@@ -31,14 +39,25 @@ npm run allure:open  # npx allure open ./allure-report
 
 ## What the demo shows
 
-- `tests/demo.test.ts`
+- `tests/demo.test.ts` (node project)
   - a passing test using the runtime API (`feature`, `component`, `step` with a parameter, `attachment`)
   - a passing test using declarative metadata via `allureMeta`
   - a passing test whose `expect` calls appear as steps
   - a failing test
   - a skipped test
+- `tests/browser/browser.test.ts` (browser project)
+  - a passing test that calls the Allure API (`feature`, `step`, `attachment`) inside a real browser
+  - a passing test that interacts with the live DOM via the `@rstest/browser` `page` locator
 
 ## Configuration
 
-See `rstest.config.ts`: `setupFiles: ["allure-rstest/setup"]` plus the
-`AllureRstestReporter` writing to `./allure-results`.
+See `rstest.config.ts`. Two inline projects share one `AllureRstestReporter` writing to
+`./allure-results`:
+
+- `node` — the demo tests, with `setupFiles: ["allure-rstest/setup"]`
+- `browser` — Browser Mode (Playwright, headless), with `setupFiles: ["allure-rstest/browser/setup"]`
+
+Note: Browser Mode is experimental and, as of the current v1, cannot resolve the running test
+(no AsyncLocalStorage in the browser), so per-test Allure metadata is not captured. The browser
+tests therefore verify that the Allure API is usable and that results are produced, rather than
+asserting per-test metadata.
