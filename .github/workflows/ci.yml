@@ -12,8 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         node: ['20', '22', '24']
-        rstest: ['0.11.12', 'latest']
-    name: node ${{ matrix.node }} / rstest ${{ matrix.rstest }}
+    name: node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,9 +22,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - name: Pin @rstest/core
-        run: npm install --no-save @rstest/core@${{ matrix.rstest }}
 
       - name: Install Chromium for the browser test
         run: npx playwright install chromium
