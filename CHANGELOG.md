@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.2](https://github.com/vara855/allure-rstest/compare/v0.0.1...v0.0.2) (2026-09-18)
+
+### Features
+
+* **demo:** add rstest browser-mode tests ([282f859](https://github.com/vara855/allure-rstest/commit/282f8592ea83c724bcd6e2fa63768fd8db908c05))
+
 ## 0.0.1 (2026-09-13)
 
 ### Features
