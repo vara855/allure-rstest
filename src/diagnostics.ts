@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module';
 
 /** Version of @rstest/core the internal details contract is pinned to. */
-export const PINNED_RSTEST_VERSION = '0.11.12';
+export const PINNED_RSTEST_VERSION = '0.12.0';
 
 export const MISSING_SETUP_MESSAGE =
   'allure-rstest: no test reported a connected setup file. ' +
